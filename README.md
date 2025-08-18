@@ -11,7 +11,7 @@ A multilingual AI-powered agricultural advisor providing farming advice, weather
 ### One-Click Setup (Recommended)
 bash
 # Clone and setup
-git clone <repository-url>
+git clone "your repo-url"
 cd Capital1
 
 # Run complete setup (takes 5-10 minutes)
