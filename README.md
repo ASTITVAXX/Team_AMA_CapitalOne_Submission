@@ -31,6 +31,132 @@ The Agricultural Advisor Bot is an intelligent system designed to assist Indian 
 - *Policy Guidance*: Government scheme information and eligibility
 - *Smart Classification*: 6 intent categories with AI-powered understanding
 
+
+## ⚠ Installation Time Notice
+*Important: The initial setup may take **5-10 minutes* due to large AI models and libraries being downloaded. This is normal for the first run.
+
+## 🚀 Installation
+
+### Prerequisites
+- Python 3.8 or higher
+- Git
+- Internet connection for model downloads
+- At least 2GB free disk space
+
+### System Requirements
+- *RAM*: Minimum 4GB, Recommended 8GB+
+- *Storage*: 2GB+ free space
+- *OS*: Windows 10+, macOS 10.14+, Ubuntu 18.04+
+
+## 📋 Setup Instructions
+
+### Method 1: One-Click Setup (Recommended)
+
+bash
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/agricultural-advisor-bot.git
+cd agricultural-advisor-bot
+
+# Run complete setup (takes 5-10 minutes)
+python setup_and_run.py
+
+# Or use platform-specific scripts:
+# Windows: run_setup.bat
+# Linux/Mac: ./run_setup.sh
+
+
+### Method 2: Manual Setup
+
+bash
+# 1. Clone repository
+git clone https://github.com/YOUR_USERNAME/agricultural-advisor-bot.git
+cd agricultural-advisor-bot
+
+# 2. Install dependencies (takes 5-10 minutes)
+pip install -r requirements.txt
+
+# 3. Initialize database and data
+python init_mandi_soil.py
+
+# 4. Create vector database for policies
+python improved_policy_chatbot.py
+
+# 5. Verify setup
+python agricultural_advisor_bot.py --help
+
+
+### Method 3: Development Setup
+
+bash
+# 1. Create virtual environment
+python -m venv venv
+
+# 2. Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Linux/Mac:
+source venv/bin/activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Install development dependencies
+pip install -r requirements_streamlit.txt
+
+# 5. Initialize data
+python init_mandi_soil.py
+python improved_policy_chatbot.py
+
+
+## 🛠 Usage
+
+### Command Line Interface
+
+bash
+# Interactive mode
+python agricultural_advisor_bot.py --interactive
+
+# Single query
+python agricultural_advisor_bot.py --query "गेहूं का भाव क्या है" --city "Kanpur"
+
+# Weather query
+python agricultural_advisor_bot.py --query "मौसम कैसा है" --city "Mumbai"
+
+# Policy query
+python agricultural_advisor_bot.py --query "PM Kisan scheme details"
+
+# Help
+python agricultural_advisor_bot.py --help
+
+
+### Web Interface
+
+bash
+# Install Streamlit dependencies
+pip install -r requirements_streamlit.txt
+
+# Run web interface
+streamlit run streamlit_app.py
+
+# Access at: http://localhost:8501
+
+
+### API Usage
+
+python
+from agricultural_advisor_bot import AgriculturalAdvisorBot
+
+# Initialize bot
+bot = AgriculturalAdvisorBot()
+
+# Set user preferences
+bot.set_user_city("Kanpur")
+bot.set_user_language("Hindi")
+
+# Process query
+response = bot.process_query("गेहूं का भाव क्या है")
+print(response)
+
 ## 🏗 System Architecture
 
 
@@ -192,131 +318,9 @@ The Agricultural Advisor Bot is an intelligent system designed to assist Indian 
 - *Vector Database*: 973 sections with semantic search
 - *Groq Integration*: Advanced LLM for policy explanations
 
-## ⚠ Installation Time Notice
-
-*Important: The initial setup may take **5-10 minutes* due to large AI models and libraries being downloaded. This is normal for the first run.
-
-## 🚀 Installation
-
-### Prerequisites
-- Python 3.8 or higher
-- Git
-- Internet connection for model downloads
-- At least 2GB free disk space
-
-### System Requirements
-- *RAM*: Minimum 4GB, Recommended 8GB+
-- *Storage*: 2GB+ free space
-- *OS*: Windows 10+, macOS 10.14+, Ubuntu 18.04+
-
-## 📋 Setup Instructions
-
-### Method 1: One-Click Setup (Recommended)
-
-bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/agricultural-advisor-bot.git
-cd agricultural-advisor-bot
-
-# Run complete setup (takes 5-10 minutes)
-python setup_and_run.py
-
-# Or use platform-specific scripts:
-# Windows: run_setup.bat
-# Linux/Mac: ./run_setup.sh
 
 
-### Method 2: Manual Setup
 
-bash
-# 1. Clone repository
-git clone https://github.com/YOUR_USERNAME/agricultural-advisor-bot.git
-cd agricultural-advisor-bot
-
-# 2. Install dependencies (takes 5-10 minutes)
-pip install -r requirements.txt
-
-# 3. Initialize database and data
-python init_mandi_soil.py
-
-# 4. Create vector database for policies
-python improved_policy_chatbot.py
-
-# 5. Verify setup
-python agricultural_advisor_bot.py --help
-
-
-### Method 3: Development Setup
-
-bash
-# 1. Create virtual environment
-python -m venv venv
-
-# 2. Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# Linux/Mac:
-source venv/bin/activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Install development dependencies
-pip install -r requirements_streamlit.txt
-
-# 5. Initialize data
-python init_mandi_soil.py
-python improved_policy_chatbot.py
-
-
-## 🛠 Usage
-
-### Command Line Interface
-
-bash
-# Interactive mode
-python agricultural_advisor_bot.py --interactive
-
-# Single query
-python agricultural_advisor_bot.py --query "गेहूं का भाव क्या है" --city "Kanpur"
-
-# Weather query
-python agricultural_advisor_bot.py --query "मौसम कैसा है" --city "Mumbai"
-
-# Policy query
-python agricultural_advisor_bot.py --query "PM Kisan scheme details"
-
-# Help
-python agricultural_advisor_bot.py --help
-
-
-### Web Interface
-
-bash
-# Install Streamlit dependencies
-pip install -r requirements_streamlit.txt
-
-# Run web interface
-streamlit run streamlit_app.py
-
-# Access at: http://localhost:8501
-
-
-### API Usage
-
-python
-from agricultural_advisor_bot import AgriculturalAdvisorBot
-
-# Initialize bot
-bot = AgriculturalAdvisorBot()
-
-# Set user preferences
-bot.set_user_city("Kanpur")
-bot.set_user_language("Hindi")
-
-# Process query
-response = bot.process_query("गेहूं का भाव क्या है")
-print(response)
 
 
 ## 📊 Data Sources
