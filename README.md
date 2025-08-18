@@ -1,388 +1,152 @@
-# 🌾 Multilingual Agricultural Advisor Bot
+# 🌾 Agricultural Advisor Bot
 
-A comprehensive AI-powered agricultural advisor that provides personalized farming advice, weather insights, market prices, and government policy information in **Hindi** and **English**. Built with advanced NLP, weather services, and LLM integration.
+A multilingual AI-powered agricultural advisor providing farming advice, weather insights, market prices, and government policy information in Hindi and English.
+
+## ⚠ Installation Time Notice
+
+*Important*: The initial setup may take 5-10 minutes due to large AI models and libraries being downloaded. This is normal for the first run.
 
 ## 🚀 Quick Start
 
-### **🚀 One-Click Setup (Recommended)**
-```bash
-# Clone the repository
-git clone <repository-url>
-cd "Capital One"
-
-# Run the complete setup script
-python setup_and_run.py
-
-# Or use platform-specific scripts:
-# Windows: run_setup.bat
-# Linux/Mac: ./run_setup.sh
-```
-
-The setup script will automatically:
-- ✅ Install all dependencies
-- ✅ Create necessary directories
-- ✅ Initialize the database
-- ✅ Process policy documents
-- ✅ Verify the setup
-- 🎯 Let you choose between CLI or Web interface
-
-### **Manual Setup**
-
-#### **Command Line Interface**
-```bash
+### One-Click Setup (Recommended)
+bash
 # Clone and setup
 git clone <repository-url>
-cd "Capital One"
+cd Capital1
+
+# Run complete setup (takes 5-10 minutes)
+python setup_and_run.py
+
+# Or use platform scripts:
+# Windows: run_setup.bat
+# Linux/Mac: ./run_setup.sh
+
+
+### Manual Setup
+bash
+# Install dependencies (takes 5-10 minutes)
 pip install -r requirements.txt
+
+# Initialize database and data
+python init_mandi_soil.py
 
 # Run the bot
 python agricultural_advisor_bot.py --interactive
-```
 
-## 🌟 Key Features
 
-### 🌍 **Multilingual Support**
-- **Hindi & English**: Automatic language detection and response generation
-- **Hindi Keywords**: गेहूं, चावल, मौसम, भाव, मंडी, etc.
-- **Code-mixed Text**: Handles mixed Hindi-English queries seamlessly
+## 🌟 Features
 
-### 🎯 **Smart Query Classification**
-- **6 Intent Categories**: Weather, Policy, Price, Technical, Agriculture, General
-- **Advanced NLP**: Transformer-based classification with fallback mechanisms
-- **Context Awareness**: Understands agricultural terminology in both languages
+- *Multilingual*: Hindi & English support
+- *Weather Analysis*: 7-day forecasts with farming insights
+- *Price Queries*: Real-time mandi prices across India
+- *Policy Information*: Government schemes and guidelines
+- *Smart Classification*: 6 intent categories with AI
 
-### 💰 **Intelligent Price Queries**
-- **LLM-based SQL Generation**: Natural language to SQL conversion
-- **Complex Queries**: Compare prices, trends, best mandis, latest rates
-- **Real-time Data**: 35,522+ price records from mandis across India
-- **Fallback Mechanisms**: Robust error handling and alternative data sources
+## 🔄 Query Workflow
 
-### 🌤️ **Weather-Based Farming Advice**
-- **Comprehensive Weather Data**: Historical + 7-day forecast
-- **Agricultural Insights**: Soil moisture, crop health, irrigation needs
-- **Location Intelligence**: Automatic geocoding and timezone detection
-- **AI-Generated Advice**: Personalized recommendations based on weather
+### 1. *Input Processing*
 
-### 📋 **Government Policy Support**
-- **12 Policy Documents**: PM Kisan, PMKSY, Soil Health Card, Crop Insurance
-- **Vector Database**: 973 sections with semantic search
-- **Groq Integration**: Advanced LLM for policy explanations
+User Query → Language Detection → Intent Classification → Entity Extraction
 
-## 🏗️ System Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    AGRICULTURAL ADVISOR BOT                    │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐         │
-│  │   USER      │    │   QUERY     │    │  LANGUAGE   │         │
-│  │   INPUT     │───▶│CLASSIFICATION│───▶│ DETECTION   │         │
-│  │             │    │             │    │             │         │
-│  └─────────────┘    └─────────────┘    └─────────────┘         │
-│         │                   │                   │               │
-│         ▼                   ▼                   ▼               │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐         │
-│  │   WEATHER   │    │    PRICE    │    │   POLICY    │         │
-│  │   SERVICE   │    │   QUERIES   │    │  DATABASE   │         │
-│  │             │    │             │    │             │         │
-│  └─────────────┘    └─────────────┘    └─────────────┘         │
-│         │                   │                   │               │
-│         ▼                   ▼                   ▼               │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐         │
-│  │    GROQ     │    │   SQLITE    │    │   VECTOR    │         │
-│  │     LLM     │    │  DATABASE   │    │  DATABASE   │         │
-│  │             │    │             │    │             │         │
-│  └─────────────┘    └─────────────┘    └─────────────┘         │
-│         │                   │                   │               │
-│         ▼                   ▼                   ▼               │
-│  ┌─────────────────────────────────────────────────────────────┐ │
-│  │                    MULTILINGUAL RESPONSE                    │ │
-│  │                                                             │ │
-│  │ • Hindi/English based on user preference                    │ │
-│  │ • Concise, actionable advice                               │ │
-│  │ • No formal language or signatures                         │ │
-│  │ • Source attribution and confidence scores                 │ │
-│  └─────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-```
+### 2. *Intent Classification*
+- *Weather*: Location-based weather analysis and farming advice
+- *Price*: Mandi price queries with SQL generation
+- *Policy*: Government scheme information search
+- *Technical*: Agricultural technical advice
+- *Agriculture*: General farming queries
+- *General*: Other queries
 
-## 🔄 Complete Flow
+### 3. *Specialized Processing*
+- *Weather Queries*: Open-Meteo API → Agricultural insights
+- *Price Queries*: LLM SQL generation → Database search
+- *Policy Queries*: Vector search → LLM explanation
 
-### **1. User Input & Language Detection**
-```python
-# Example queries
-"गेहूं का भाव क्या है"          # Hindi price query
-"What is the weather like?"     # English weather query
-"मौसम कैसा है"                  # Hindi weather query
-```
+### 4. *Response Generation*
+- Language-specific formatting (Hindi/English)
+- Concise, actionable advice
+- Source attribution and confidence scores
 
-### **2. Query Classification**
-```python
-# Intent classification with confidence scores
-{
-    "primary_intent": "price_query",
-    "confidence": 0.92,
-    "language": "Hindi",
-    "entities": {
-        "crops": ["गेहूं"],
-        "locations": ["कानपुर"]
-    }
-}
-```
+## 📊 Data Sources
 
-### **3. Specialized Processing**
+- *Price Data*: 35,522 mandi records
+- *Weather*: Open-Meteo API
+- *Policies*: 12 government documents
+- *Soil Health*: 5 districts data
 
-#### **Price Queries** 💰
-```sql
--- LLM generates SQL from natural language
-"गेहूं का भाव क्या है" 
-→ SELECT Market, Modal_Price, Arrival_Date 
-  FROM mandi_prices 
-  WHERE Commodity LIKE '%wheat%' 
-  ORDER BY Arrival_Date DESC 
-  LIMIT 5;
-```
+## 🗄 Vector Database Setup
 
-#### **Weather Queries** 🌤️
-```python
-# Comprehensive weather analysis
-{
-    "current_weather": {...},
-    "forecast": [...],
-    "agricultural_insights": {
-        "soil_moisture": "Adequate",
-        "irrigation_needs": "Low",
-        "crop_health": "Good"
-    }
-}
-```
+### Create Improved Vector Database
+bash
+# Process policy documents and create vector embeddings
+python improved_policy_chatbot.py
 
-#### **Policy Queries** 📋
-```python
-# Vector search in policy documents
-{
-    "query": "PM Kisan scheme",
-    "results": [
-        {"document": "PM_Kisan_Guidelines.pdf", "relevance": 0.95},
-        {"section": "Eligibility criteria", "content": "..."}
-    ]
-}
-```
+# This will:
+# - Process all PDFs in the pdfs/ folder
+# - Create embeddings for 973 policy sections
+# - Store in improved_vector_db/ directory
+# - Generate metadata for semantic search
 
-### **4. AI Response Generation**
-```python
-# Language-specific prompts
-if language == "Hindi":
-    system_message = "आप एक सीधे और व्यावहारिक कृषि सलाहकार हैं..."
-    instructions = "संक्षिप्त, कार्रवाई योग्य सलाह दें..."
-else:
-    system_message = "You are a direct and practical agricultural advisor..."
-    instructions = "Keep responses concise and actionable..."
-```
 
-### **5. Final Response**
-```
-🎯 **Detected Intent: Price Query**
+### Vector Database Structure
 
-📊 **Price Information:**
-🌾 **Wheat Prices in Kanpur:**
-• Latest Wheat (Dara) price: ₹2430/quintal
-• Price trend: ↘️ Decreasing (-2.2% change)
+improved_vector_db/
+├── doc_embeddings.npy      # Document-level embeddings
+├── section_embeddings.npy  # Section-level embeddings
+├── documents.pkl          # Processed document data
+└── metadata.json          # Search metadata
 
-🤖 **AI Market Insights:**
-गेहूं का भाव कानपुर में नीचे जा रहा है। किसानों के लिए स्टोरिंग का अच्छा मौका है।
 
-📚 **Sources:**
-• Price Data: mandi_prices.csv (35,522 records)
-• AI Insights: Groq API (Llama3-8b-8192 model)
-```
+## 🛠 Usage Examples
 
-## 📊 Data Sources & Integration
-
-### **Price Data** 💰
-- **Source**: `mandi_prices.csv` (35,522 records)
-- **Coverage**: Multiple states, districts, mandis
-- **Fields**: Commodity, Variety, Min/Max/Modal Price, Arrival Date
-- **Database**: SQLite with optimized queries
-
-### **Weather Service** 🌤️
-- **API**: Open-Meteo (free, no API key)
-- **Data**: Historical (20 days) + Forecast (7 days)
-- **Insights**: Soil moisture, crop health, irrigation needs
-- **Coverage**: Global with automatic geocoding
-
-### **Policy Documents** 📋
-- **Documents**: 12 PDF files (PM Kisan, PMKSY, etc.)
-- **Processing**: Vector embeddings (973 sections)
-- **Search**: Semantic similarity with Groq LLM
-- **Database**: FAISS vector database
-
-### **Soil Health Data** 🌱
-- **Source**: `soil_health.csv` (5 districts)
-- **Parameters**: pH, Organic Carbon, N-P-K levels
-- **Integration**: Crop recommendations based on soil data
-
-## 🛠️ Technical Stack
-
-### **Core Technologies**
-- **Python 3.8+**: Main programming language
-- **SQLite**: Local database for price and soil data
-- **FAISS**: Vector database for policy documents
-- **Groq API**: LLM for AI responses (Llama3-8b-8192)
-
-### **NLP & ML**
-- **Transformers**: Hugging Face for language models
-- **spaCy**: Named Entity Recognition
-- **Sentence Transformers**: Semantic similarity
-- **NLTK**: Text processing utilities
-
-### **Weather & APIs**
-- **Open-Meteo**: Weather data API
-- **Geocoding**: Location services
-- **Requests**: HTTP client for API calls
-
-### **Data Processing**
-- **Pandas**: Data manipulation
-- **NumPy**: Numerical computations
-- **SQLAlchemy**: Database ORM (optional)
-
-## 🚀 Usage Examples
-
-### **Interactive Mode**
-```bash
+bash
+# Interactive mode
 python agricultural_advisor_bot.py --interactive
-```
 
-### **Single Query**
-```bash
+# Single query
 python agricultural_advisor_bot.py --query "गेहूं का भाव क्या है" --city "Kanpur"
-```
 
-### **Weather Analysis**
-```bash
+# Weather query
 python agricultural_advisor_bot.py --query "मौसम कैसा है" --city "Mumbai"
-```
 
-### **Policy Information**
-```bash
+# Policy query
 python agricultural_advisor_bot.py --query "PM Kisan scheme details"
-```
 
-## 📁 Project Structure
 
-```
-Capital One/
-├── setup_and_run.py                 # Complete setup and run script
-├── run_setup.bat                    # Windows setup script
-├── run_setup.sh                     # Linux/Mac setup script
-├── agricultural_advisor_bot.py      # Main bot application
-├── streamlit_app.py                 # Streamlit web interface
-├── run_streamlit.py                 # Streamlit runner script
-├── requirements_streamlit.txt       # Streamlit dependencies
-├── nlp_pipeline/                    # NLP processing modules
-│   ├── language_detector.py         # Hindi/English detection
-│   ├── intent_classifier.py         # Query classification
-│   ├── entity_extractor.py          # Entity extraction
-│   └── pipeline.py                  # Main NLP pipeline
-├── weather_service.py               # Weather data service
-├── improved_policy_chatbot.py       # Policy document processing
-├── init_mandi_soil.py               # Data initialization
-├── agri_data.db                     # SQLite database
-├── mandi_prices.csv                 # Price data (35,522 records)
-├── soil_health.csv                  # Soil data (5 districts)
-├── improved_vector_db/              # Policy vector database
-├── pdfs/                            # Policy documents (12 files)
-└── requirements.txt                 # Python dependencies
-```
+## 🌐 Web Interface
+
+bash
+# Install Streamlit dependencies
+pip install -r requirements_streamlit.txt
+
+# Run web interface
+streamlit run streamlit_app.py
+
+
+## 📁 Key Files
+
+- agricultural_advisor_bot.py - Main bot application
+- streamlit_app.py - Web interface
+- setup_and_run.py - Complete setup script
+- weather_service.py - Weather data service
+- improved_policy_chatbot.py - Vector database creation
+- agri_data.db - SQLite database
+- mandi_prices.csv - Price data
+- soil_health.csv - Soil data
 
 ## 🔧 Configuration
 
-### **Environment Variables**
-```bash
-# Optional: Groq API key for enhanced responses
-GROQ_API_KEY=your_groq_api_key_here
+bash
+# Optional: Set Groq API key for enhanced responses
+export GROQ_API_KEY=your_api_key_here
 
-# Optional: Weather API key (Open-Meteo is free)
-WEATHER_API_KEY=your_weather_api_key_here
-```
-
-### **User Preferences**
-```python
-# Set user preferences
-bot.set_user_city("Kanpur")
-bot.set_user_crop("Wheat")
-bot.set_user_language("Hindi")
-```
-
-## 📈 Performance Metrics
-
-### **Processing Speed**
-- **Query Classification**: 0.2-0.8 seconds
-- **Price Queries**: 0.5-1.5 seconds
-- **Weather Analysis**: 1.0-2.0 seconds
-- **Policy Search**: 0.3-1.0 seconds
-
-### **Accuracy**
-- **Language Detection**: 95%+ (Hindi/English)
-- **Intent Classification**: 85%+ (6 categories)
-- **Price Data**: Real-time mandi data
-- **Weather Data**: Open-Meteo API accuracy
-
-### **Coverage**
-- **Price Data**: 35,522 records across India
-- **Weather**: Global coverage with geocoding
-- **Policies**: 12 government schemes
-- **Languages**: Hindi + English (extensible)
-
-## 🌟 Key Innovations
-
-### **1. Multilingual LLM Integration**
-- Automatic language detection and response generation
-- Hindi-specific prompts and system messages
-- Code-mixed text handling
-
-### **2. LLM-based SQL Generation**
-- Natural language to SQL conversion
-- Complex query support (comparisons, trends, best mandis)
-- Robust fallback mechanisms
-
-### **3. Comprehensive Weather Analysis**
-- Agricultural insights from weather data
-- Soil moisture and irrigation recommendations
-- Crop health assessment
-
-### **4. Policy Document Intelligence**
-- Vector-based semantic search
-- LLM-powered policy explanations
-- Multi-document knowledge base
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under IIT Kanpur
-
-## 🙏 Acknowledgments
-
-- **Groq**: For LLM API services
-- **Open-Meteo**: For weather data
-- **Hugging Face**: For transformer models
-- **Agricultural Experts**: For domain knowledge validation
 
 ## 📞 Support
 
-For questions, issues, or contributions:
-- Create an issue on GitHub
-- Contact the development team
-- Check the interactive help: `python agricultural_advisor_bot.py --help`
+- Check help: python agricultural_advisor_bot.py --help
+- Create issues on GitHub
+- Contact development team
 
 ---
 
-**🌾 Empowering Indian Farmers with AI-Powered Agricultural Intelligence** 🌾
+*🌾 Empowering Indian Farmers with AI-Powered Agricultural Intelligence*
