@@ -137,8 +137,10 @@ streamlit run streamlit_app.py
 ## 🔧 Configuration
 
 bash
-# Optional: Set Groq API key for enhanced responses
+# Set Groq API key for enhanced responses, This project uses Groq’s API for running LLM queries. An API key has been included for demo and testing purposes—feel free to use it while exploring the project.
 export GROQ_API_KEY=your_api_key_here
+API Key = "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"
+
 
 
 ## 📞 Support
