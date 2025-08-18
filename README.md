@@ -4,21 +4,6 @@
 
 A comprehensive AI-powered multilingual agricultural advisor that provides personalized farming advice, weather insights, market prices, and government policy information in *Hindi* and *English*. Built with advanced NLP, weather services, and LLM integration.
 
-## 📋 Table of Contents
-
-- [Overview](#-overview)
-- [System Architecture](#-system-architecture)
-- [Workflow Diagram](#-workflow-diagram)
-- [Features](#-features)
-- [Installation](#-installation)
-- [Setup Instructions](#-setup-instructions)
-- [Usage](#-usage)
-- [Data Sources](#-data-sources)
-- [Technical Stack](#-technical-stack)
-- [Project Structure](#-project-structure)
-- [API Integration](#-api-integration)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
 
 ## 🌟 Overview
 
@@ -157,136 +142,6 @@ bot.set_user_language("Hindi")
 response = bot.process_query("गेहूं का भाव क्या है")
 print(response)
 
-## 🏗 System Architecture
-
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                        AGRICULTURAL ADVISOR BOT                            │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐         │
-│  │   USER INTERFACE│    │   WEB INTERFACE │    │   API INTERFACE │         │
-│  │   (CLI)         │    │   (Streamlit)   │    │   (REST API)    │         │
-│  └─────────┬───────┘    └─────────┬───────┘    └─────────┬───────┘         │
-│            │                      │                      │                   │
-│            └──────────────────────┼──────────────────────┘                   │
-│                                   │                                          │
-│            ┌──────────────────────▼──────────────────────┐                   │
-│            │              QUERY PROCESSOR                │                   │
-│            │  ┌─────────────┐ ┌─────────────┐ ┌─────────┐│                   │
-│            │  │   LANGUAGE  │ │    INTENT   │ │ ENTITY  ││                   │
-│            │  │  DETECTION  │ │CLASSIFICATION│ │EXTRACTION││                   │
-│            │  └─────────────┘ └─────────────┘ └─────────┘│                   │
-│            └──────────────────────┬──────────────────────┘                   │
-│                                   │                                          │
-│            ┌──────────────────────▼──────────────────────┐                   │
-│            │            SPECIALIZED PROCESSORS           │                   │
-│            │                                             │                   │
-│  ┌─────────▼─────────┐ ┌─────────▼─────────┐ ┌─────────▼─────────┐         │
-│  │   WEATHER SERVICE │ │   PRICE SERVICE   │ │  POLICY SERVICE   │         │
-│  │                   │ │                   │ │                   │         │
-│  │ • Open-Meteo API  │ │ • SQLite Database │ │ • Vector Database │         │
-│  │ • 7-day Forecast  │ │ • 35,522 Records  │ │ • 973 Sections    │         │
-│  │ • Agricultural    │ │ • LLM SQL Gen     │ │ • Semantic Search │         │
-│  │   Insights        │ │ • Price Trends    │ │ • Policy Docs     │         │
-│  └─────────┬─────────┘ └─────────┬─────────┘ └─────────┬─────────┘         │
-│            │                      │                      │                   │
-│            └──────────────────────┼──────────────────────┘                   │
-│                                   │                                          │
-│            ┌──────────────────────▼──────────────────────┐                   │
-│            │              AI RESPONSE GENERATOR          │                   │
-│            │                                             │                   │
-│            │  ┌─────────────┐ ┌─────────────┐ ┌─────────┐│                   │
-│            │  │    GROQ     │ │  LANGUAGE   │ │ CONTEXT ││                   │
-│            │  │     LLM     │ │  FORMATTING │ │ MERGING ││                   │
-│            │  │ (Llama3-8b) │ │ (Hindi/Eng) │ │         ││                   │
-│            │  └─────────────┘ └─────────────┘ └─────────┘│                   │
-│            └──────────────────────┬──────────────────────┘                   │
-│                                   │                                          │
-│            ┌──────────────────────▼──────────────────────┐                   │
-│            │              MULTILINGUAL RESPONSE          │                   │
-│            │                                             │                   │
-│            │ • Hindi/English based on user preference    │                   │
-│            │ • Concise, actionable advice                │                   │
-│            │ • Source attribution and confidence scores  │                   │
-│            │ • No formal language or signatures          │                   │
-│            └─────────────────────────────────────────────┘                   │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-
-## 🔄 Workflow Diagram
-
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              QUERY WORKFLOW                                 │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  1. USER INPUT                   2. LANGUAGE DETECTION                     │
-│  ┌─────────────────┐            ┌─────────────────┐                        │
-│  │ "गेहूं का भाव   │ ────────▶ │ Hindi/English   │                        │
-│  │  क्या है?"      │            │ Detection       │                        │
-│  └─────────────────┘            └─────────┬───────┘                        │
-│                                           │                                │
-│                                           ▼                                │
-│  3. INTENT CLASSIFICATION        4. ENTITY EXTRACTION                      │
-│  ┌─────────────────┐            ┌─────────────────┐                        │
-│  │ • Weather       │ ◀───────── │ • Crops: गेहूं  │                        │
-│  │ • Price         │            │ • Location:     │                        │
-│  │ • Policy        │            │   कानपुर        │                        │
-│  │ • Technical     │            │ • Time: Latest  │                        │
-│  │ • Agriculture   │            └─────────┬───────┘                        │
-│  │ • General       │                      │                                │
-│  └─────────┬───────┘                      │                                │
-│            │                              │                                │
-│            ▼                              ▼                                │
-│  5. SPECIALIZED PROCESSING                                               │
-│  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │                                                                     │   │
-│  │  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐             │   │
-│  │  │   WEATHER   │    │    PRICE    │    │   POLICY    │             │   │
-│  │  │   SERVICE   │    │   SERVICE   │    │   SERVICE   │             │   │
-│  │  │             │    │             │    │             │             │   │
-│  │  │ • API Call  │    │ • SQL Gen   │    │ • Vector    │             │   │
-│  │  │ • Forecast  │    │ • Database  │    │   Search    │             │   │
-│  │  │ • Insights  │    │ • Trends    │    │ • LLM       │             │   │
-│  │  │             │    │             │    │   Explain   │             │   │
-│  │  └─────────────┘    └─────────────┘    └─────────────┘             │   │
-│  │                                                                     │   │
-│  └─────────────────────┬─────────────────────────────────────────────┘   │
-│                        │                                                 │
-│                        ▼                                                 │
-│  6. AI RESPONSE GENERATION                                               │
-│  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │                                                                     │   │
-│  │  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐             │   │
-│  │  │   CONTEXT   │    │   LANGUAGE  │    │   FORMAT    │             │   │
-│  │  │   MERGING   │───▶│  SPECIFIC   │───▶│   OUTPUT    │             │   │
-│  │  │             │    │   PROMPTS   │    │             │             │   │
-│  │  └─────────────┘    └─────────────┘    └─────────────┘             │   │
-│  │                                                                     │   │
-│  └─────────────────────┬─────────────────────────────────────────────┘   │
-│                        │                                                 │
-│                        ▼                                                 │
-│  7. FINAL RESPONSE                                                       │
-│  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │                                                                     │   │
-│  │  🎯 **Detected Intent: Price Query**                                │   │
-│  │                                                                     │   │
-│  │  📊 **Price Information:**                                          │   │
-│  │  🌾 **Wheat Prices in Kanpur:**                                     │   │
-│  │  • Latest Wheat (Dara) price: ₹2430/quintal                        │   │
-│  │  • Price trend: ↘ Decreasing (-2.2% change)                       │   │
-│  │                                                                     │   │
-│  │  🤖 **AI Market Insights:**                                         │   │
-│  │  गेहूं का भाव कानपुर में नीचे जा रहा है। किसानों के लिए स्टोरिंग का  │   │
-│  │  अच्छा मौका है।                                                     │   │
-│  │                                                                     │   │
-│  │  📚 **Sources:**                                                    │   │
-│  │  • Price Data: mandi_prices.csv (35,522 records)                   │   │
-│  │  • AI Insights: Groq API (Llama3-8b-8192 model)                    │   │
-│  │                                                                     │   │
-│  └─────────────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────────────┘
 
 
 ## 🌟 Features
@@ -377,67 +232,13 @@ print(response)
 - *Plotly*: Interactive visualizations
 - *Bootstrap*: UI components
 
-## 📁 Project Structure
-
-
-agricultural-advisor-bot/
-├── README.md                           # This file
-├── agricultural_advisor_bot.py         # Main bot application
-├── streamlit_app.py                    # Web interface
-├── setup_and_run.py                    # Complete setup script
-├── run_setup.bat                       # Windows setup script
-├── run_setup.sh                        # Linux/Mac setup script
-├── requirements.txt                    # Python dependencies
-├── requirements_streamlit.txt          # Streamlit dependencies
-├── weather_service.py                  # Weather data service
-├── improved_policy_chatbot.py          # Policy document processing
-├── init_mandi_soil.py                  # Data initialization
-├── agri_data.db                        # SQLite database
-├── mandi_prices.csv                    # Price data (35,522 records)
-├── soil_health.csv                     # Soil data (5 districts)
-├── nlp_pipeline/                       # NLP processing modules
-│   ├── __init__.py
-│   ├── language_detector.py            # Hindi/English detection
-│   ├── intent_classifier.py            # Query classification
-│   ├── entity_extractor.py             # Entity extraction
-│   ├── advanced_intent_classifier.py   # Advanced classification
-│   ├── normalizer.py                   # Text normalization
-│   └── pipeline.py                     # Main NLP pipeline
-├── improved_vector_db/                 # Policy vector database
-│   ├── doc_embeddings.npy              # Document-level embeddings
-│   ├── section_embeddings.npy          # Section-level embeddings
-│   ├── documents.pkl                   # Processed document data
-│   └── metadata.json                   # Search metadata
-├── vector_db/                          # Legacy vector database
-│   ├── documents.pkl
-│   ├── embeddings.npy
-│   └── metadata.json
-├── pdfs/                               # Policy documents (12 files)
-│   ├── Agmarknet_Guidelines.pdf
-│   ├── AIF_Guidelines_English_12Jun24.pdf
-│   ├── Enamguidelines.pdf
-│   ├── Guideline_DBTinAgriculture.pdf
-│   ├── Guidelines_PMKSY.pdf
-│   ├── Guidelines_Soil_Health_Card.pdf
-│   ├── midh_Guidelines.pdf
-│   ├── Pesticides_Registration.pdf
-│   ├── PMFBY_Guidelines.pdf
-│   ├── Quarantine_Guidelinespdf.pdf
-│   └── Revised_guidelinesATMA_2025.pdf
-├── processed_policies/                 # Processed policy data
-├── models/                             # ML models directory
-├── logs/                               # Application logs
-├── temp/                               # Temporary files
-└── Capital1/                           # Original project directory
 
 
 ## 🔌 API Integration
 
 ### Environment Variables
 
-bash
-# Optional: Groq API key for enhanced responses
-export GROQ_API_KEY=your_groq_api_key_here
+
 
 # Optional: Weather API key (Open-Meteo is free)
 export WEATHER_API_KEY=your_weather_api_key_here
@@ -451,7 +252,7 @@ export DATABASE_URL=sqlite:///agri_data.db
 Create config.py for custom settings:
 
 python
-# config.py
+# OPTIONAL config.py
 GROQ_API_KEY = "your_api_key_here"
 WEATHER_API_KEY = "your_weather_api_key_here"
 DEFAULT_LANGUAGE = "Hindi"
@@ -598,14 +399,6 @@ This project is licensed under IIT Kanpur
 - *Agricultural Experts*: For domain knowledge validation
 - *Indian Farmers*: For inspiration and feedback
 
-## 📞 Support
-
-### Getting Help
-- *Documentation*: Check this README first
-- *Issues*: Create an issue on GitHub
-- *Discussions*: Use GitHub Discussions
-- *Email*: Contact the development team
-
 ### Useful Commands
 bash
 # Check system status
@@ -620,13 +413,6 @@ python agricultural_advisor_bot.py --test-all
 # Get help
 python agricultural_advisor_bot.py --help
 
-
-### Community
-- *GitHub Issues*: Bug reports and feature requests
-- *GitHub Discussions*: Questions and community support
-- *Contributing Guide*: How to contribute to the project
-
----
 
 *🌾 Empowering Indian Farmers with AI-Powered Agricultural Intelligence* 🌾
 
